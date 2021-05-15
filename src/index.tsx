@@ -3,8 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import registerServiceWorker from './registerServiceWorker';
-import  Store, { history } from './store';
-import { ConnectedRouter } from 'react-router-redux';
+import  Store from './store';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import './index.css';
@@ -12,9 +12,9 @@ import  makeMainRoutes  from './routes';
 
 ReactDOM.render(
   <Provider store={Store}>
-    <ConnectedRouter history={history}>
+    <BrowserRouter>
       {makeMainRoutes()}
-    </ConnectedRouter>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

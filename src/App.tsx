@@ -3,9 +3,10 @@ import { Navbar, Button } from 'react-bootstrap';
 import { Route, Link} from 'react-router-dom';
 import Home from './Home';
 import Profile from './Profile';
-class App extends React.Component <any> {
+import NotFound from './NotFound';
+import Livre from './Livre';
 
-  componentDidMount() {  }
+class App extends React.Component <any> {
 
   login= () => {
     this.props.auth.login();
@@ -53,14 +54,26 @@ class App extends React.Component <any> {
              </Button>
              </Link>
            }
-           {isAuthenticated() &&
-             <Button
-               bsStyle="primary"
-               className="btn-margin"
-               onClick={this.renewToken}
-             >
-               Renew Token
-             </Button>}
+          {isAuthenticated() &&
+            <Link to={`/user`}>
+              <Button
+                bsStyle="primary"
+                className="btn-margin"
+              >
+                User
+              </Button>
+             </Link>
+             }
+             {isAuthenticated() &&
+            <Link to={`/livre`}>
+              <Button
+                bsStyle="primary"
+                className="btn-margin"
+              >
+                Livre
+              </Button>
+             </Link>
+             }
            {isAuthenticated() &&
              <Button
                bsStyle="primary"
@@ -73,6 +86,8 @@ class App extends React.Component <any> {
        </Navbar>
         <Route exact={true} path="/home" render={props => <Home auth={this.props.auth} {...this.props} />} />
         <Route exact={true} path="/profile" render={props => <Profile auth={this.props.auth} {...this.props} />} />
+        <Route exact={true} path="/livre" render={props => <Livre auth={this.props.auth} {...this.props} />} />
+        <Route path="/404" render={props => <NotFound/>}/>
      </div>
    );
   }

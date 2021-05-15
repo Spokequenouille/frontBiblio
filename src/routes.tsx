@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Callback from './Callback';
 import App from './App';
 import Auth from './Auth/Auth';
-
+import NotFound from './NotFound';
 const auth = new Auth();
 
 const handleAuthentication = (prop: any) => {
@@ -16,7 +16,7 @@ const makeMainRoutes = () => (
 
     <Route path="/" exact={true} render={props => !auth.isAuthenticated() ?
       <Redirect to="/home" />
-     :<App auth={auth} {...props} />} />} />
+     :<App auth={auth} {...props} />} />
     <Route
       path="/callback"
       render={props => {
@@ -30,6 +30,11 @@ const makeMainRoutes = () => (
       !auth.isAuthenticated() ?
         <Redirect to="/home" />
        :<App auth={auth} {...props} />} />
+    <Route exact={true} path="/livre" render={props =>
+      !auth.isAuthenticated() ?
+        <Redirect to="/home" />
+       :<App auth={auth} {...props} />} />       
+    <Route render={props => <NotFound/>}/>
 
  </Switch>
 );
