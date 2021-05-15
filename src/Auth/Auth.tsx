@@ -11,7 +11,6 @@ import { AUTH_CONFIG } from './auth0-variables';
     redirectUri: `${AUTH_CONFIG.redirect_url}/callback`,
     responseType: 'token id_token',
     scope: 'openid profile',
-    audience:AUTH_CONFIG.audience
   });
 
   login() {
