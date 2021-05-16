@@ -12,6 +12,8 @@ interface IMyComponentState {
   titre: string;
   aut?: any;
   emprunte: boolean;
+  setShowUpdate: boolean;
+  edit: null |Livre;
 }
 
 interface Livre {
@@ -35,12 +37,14 @@ class Livre extends Component<any,IMyComponentState> {
     this.state = {
       items: [],
       setShow: false,
+      setShowUpdate: false,
       date: new Date(),
       startDate: new Date(),
       auteur: [],
       titre: "",
       aut: "",
       emprunte: false,
+      edit:null ,
     }
   }
 
@@ -53,6 +57,21 @@ class Livre extends Component<any,IMyComponentState> {
     this.setState({
       setShow: true
   })}
+
+  
+  handleCloseUpdate () {
+    this.setState({
+      setShowUpdate: false
+  })}
+
+  handleShowUpdate (id:any) {
+    this.setState({
+      edit: id,
+  })
+   this.setState({
+    setShowUpdate: true,
+})}
+
 
   newLivre() {
     console.log(this.state.aut)
@@ -181,7 +200,58 @@ class Livre extends Component<any,IMyComponentState> {
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={(event:any) => {this.handleClose()}}>Fermer</Button>
-              <Button>Enregister</Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={this.state.setShowUpdate} onHide={(event:any) => {this.handleCloseUpdate()}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modifier un Livre</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form
+                onSubmit={(e:any) => {
+                  console.log("wesh")
+                  e.preventDefault();
+                  const target = e.target;
+                  this.addLivre(target);
+                }}>
+                <label>
+                  Titre:
+                  <input type="text" name="titre" defaultValue="2"/>
+                </label>
+                <br/>
+                <label>
+                  Date:
+                  <input type="date" name="date"/>
+                </label>
+                <br/>
+                <label>
+                  Auteur:
+                  <select name="auteur">
+                    {this.state.auteur.map((aut, i) =>(
+                      <option key={aut.id} value={i}>{aut.nom}</option>
+                    ))}
+                  </select>
+                </label>
+                <br/>
+                <label>
+                  Categorie:
+                  <select name="categorie">
+                      <option key="ENFANT">ENFANT</option>
+                      <option key="ADO">ADO</option>
+                      <option key="ADULTE">ADULTE</option>
+                  </select>
+                </label>
+                <br/>
+                <label>
+                  Disponible:
+                  <input type="checkbox" name="emprunte"/>
+                </label>
+                <br/>
+                <input type="submit"/>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={(event:any) => {this.handleCloseUpdate()}}>Fermer</Button>
             </Modal.Footer>
           </Modal>
           <Table striped bordered hover>
@@ -209,7 +279,7 @@ class Livre extends Component<any,IMyComponentState> {
                     <Button onClick={(event: any) => {
                       this.deleteCrud(item.id)
                     }} >Supprimer</Button>
-                    <Button>Modifier</Button>
+                    <Button onClick={(event:any) => {this.handleShowUpdate(item.id)}}>Modifier</Button>
                   </td>
                 </tr>
               ))} 

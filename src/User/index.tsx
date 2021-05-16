@@ -12,13 +12,25 @@ interface IMyComponentState {
   titre: string;
   aut?: any;
   emprunte: boolean;
+  setShowEmprunt: boolean;
 }
 
 interface User {
   id: number;
   nom: string;
   age: number;
+  livres: Array<Livre>;
 }
+
+interface Livre {
+  id: number;
+  titre: string;
+  dateofpublication: Date;
+  isBorrowed: string;
+  auteurs: Auteur;
+  categorie: string;
+}
+
 
 interface Auteur {
   id: number;
@@ -38,6 +50,7 @@ class User extends Component<any,IMyComponentState> {
       titre: "",
       aut: "",
       emprunte: false,
+      setShowEmprunt: false,
     }
   }
 
@@ -51,6 +64,20 @@ class User extends Component<any,IMyComponentState> {
       setShow: true
   })}
 
+  handleCloseEmprunt () {
+    this.setState({
+      setShowEmprunt: false
+  })}
+
+  handleShowEmprunt () {
+    this.setState({
+      setShowEmprunt: true
+  })}
+
+  emprunter(id:number) {
+    console.log(id);
+  }
+  
   newLivre() {
     console.log(this.state.aut)
   }
@@ -139,12 +166,43 @@ class User extends Component<any,IMyComponentState> {
               <Button>Enregister</Button>
             </Modal.Footer>
           </Modal>
+          <Modal show={this.state.setShowEmprunt} onHide={(event:any) => {this.handleCloseEmprunt()}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Emprunter un livre</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form
+                onSubmit={(e:any) => {
+                  console.log("wesh")
+                  e.preventDefault();
+                  const target = e.target;
+                  this.addLivre(target);
+                }}>
+                <label>
+                  Nom:
+                  <input type="text" name="nom"/>
+                </label>
+                <br/>
+                <label>
+                  Age:
+                  <input type="number" name="age"/>
+                </label>
+                <br/>
+                <input type="submit"/>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={(event:any) => {this.handleClose()}}>Fermer</Button>
+              <Button>Enregister</Button>
+            </Modal.Footer>
+          </Modal>
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Nom</th>
                 <th>Age</th>
+                <th>Livres</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -154,11 +212,17 @@ class User extends Component<any,IMyComponentState> {
                   <td>{item.id}</td>
                   <td>{item.nom}</td>
                   <td>{item.age}</td>
+                  <td>{item.livres.map((livre) => (
+                    livre.titre
+                  ))}</td>
                   <td>
                     <Button onClick={(event: any) => {
                       this.deleteCrud(item.id)
                     }} >Supprimer</Button>
                     <Button>Modifier</Button>
+                    <Button onClick={(event: any) => {
+                      this.emprunter(item.id)
+                    }} >Emprunter</Button>
                   </td>
                 </tr>
               ))} 
