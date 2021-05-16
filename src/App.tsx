@@ -3,6 +3,7 @@ import { Navbar, Button } from 'react-bootstrap';
 import { Route, Link} from 'react-router-dom';
 import Home from './Home';
 import Profile from './Profile';
+import User from './User';
 import NotFound from './NotFound';
 import Livre from './Livre';
 
@@ -87,6 +88,7 @@ class App extends React.Component <any> {
         <Route exact={true} path="/home" render={props => <Home auth={this.props.auth} {...this.props} />} />
         <Route exact={true} path="/profile" render={props => <Profile auth={this.props.auth} {...this.props} />} />
         <Route exact={true} path="/livre" render={props => <Livre auth={this.props.auth} {...this.props} />} />
+        <Route exact={true} path="/user" render={props => <User auth={this.props.auth} {...this.props} />} />
         <Route path="/404" render={props => <NotFound/>}/>
      </div>
    );

@@ -34,8 +34,12 @@ const makeMainRoutes = () => (
       !auth.isAuthenticated() ?
         <Redirect to="/home" />
        :<App auth={auth} {...props} />} />       
+           <Route exact={true} path="/user" render={props =>
+      !auth.isAuthenticated() ?
+        <Redirect to="/home" />
+       :<App auth={auth} {...props} />} />   
     <Route render={props => <NotFound/>}/>
-
+    
  </Switch>
 );
 
